@@ -17,7 +17,7 @@ const searchFunc = function (path, $input, $resultContent) {
             let $resultContent = document.getElementById(content_id);*/
             $input.addEventListener('input', function () {
                 console.log("开始搜索···");
-                let str = '<ul class=\"search-result-list\">';
+                let str = '<ul class=\"search-result-list\" >';
                 const keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
                 $resultContent.innerHTML = "";
                 if (this.value.trim().length <= 0) {
@@ -52,7 +52,7 @@ const searchFunc = function (path, $input, $resultContent) {
                     // 返回搜索结果
                     if (isMatch) {
                         //结果标签
-                        str += "<li><a href='" + data_url + "' class='search-result-title' target='_blank'>" + "> " + data_title + "</a>";
+                        str += "<li><a href='" + data_url + "' class='search-result-title' target='_self'>" + "> " + data_title + "</a>";
                         let content = data.content.trim().replace(/<[^>]+>/g, "");
                         if (first_occur >= 0) {
                             // 拿出含有搜索字的部分
@@ -81,13 +81,5 @@ const searchFunc = function (path, $input, $resultContent) {
             })
         }
     })
-};
-window.onload = function () {
-    const path = "../search.xml";
-    let $input = document.getElementById('local-search-input');
-    let $resultContent = document.getElementById('local-search-result');
-    if ($input != null && $resultContent != null) {
-        searchFunc(path, $input, $resultContent);
-    }
 };
 

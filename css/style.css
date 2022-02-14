@@ -222,7 +222,8 @@ html, body, #fullpage{
   box-shadow: 0 1px 6px rgba(0, 0, 0, .3)
 }
 #header::after{
-  content: "请尽情享受阅读吧";
+/*  content: "请尽情享受阅读吧";*/
+  content: attr(bg-text);
   display: block;
   text-align: center;
   line-height: 30px;
