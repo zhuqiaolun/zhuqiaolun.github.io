@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>zxing开发之二维码 | zhuqiaolun - 个人博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  
+  
+  <meta name="keywords" content="zxing，二维码" />
+  
+  <meta name="description" content="zxing，二维码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zxing开发之二维码">
+<meta property="og:url" content="https://www.zhuqiaolun.com/2023/09/1694141476592/1694141476592/index.html">
+<meta property="og:site_name" content="zhuqiaolun - 个人博客">
+<meta property="og:description" content="zxing，二维码">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-08T02:51:16.000Z">
+<meta property="article:modified_time" content="2023-09-11T03:20:46.582Z">
+<meta property="article:author" content="十二">
+<meta property="article:tag" content="zxing，二维码">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="zhuqiaolun - 个人博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/highlight.css">
+
+  
+<link rel="stylesheet" href="/css/iconfont.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="fullpage" class="mobile-nav-left">
+    
+      <div id="wrapper" style="background-image: url(/images/bg.jpg)" >
+    
+      <header id="header">
+  <div id="nav-toggle" class="nav-toggle"></div>
+  <div class="head-box global-width">
+    <nav class="nav-box nav-left">
+      
+        <a class="nav-item" href="/" title=""
+        
+        >首页</a>
+      
+        <a class="nav-item" href="/archives" title=""
+        
+        >归档</a>
+      
+        <a class="nav-item" href="/about" title=""
+        
+        >关于</a>
+      
+        <a class="nav-item" href="/file" title=""
+        
+        >文件</a>
+      
+        <a class="nav-item" href="https://github.com/zhuqiaolun" title=""
+        
+          target="_blank"
+        
+        >Github</a>
+      
+      <a href="javaScript:void (0);" class="big-link" data-reveal-id="myModal" data-animation="fade" title="搜索"><i class="iconfont icon-chaxun"></i></a>
+    </nav>
+    <div id="myModal" class="reveal-modal">
+      <div id="site_search">
+          <input placeholder="站内搜索，输入自动查询" type="text" id="local-search-input" results="0"/>
+          <div id="local-search-result"></div>
+      </div>
+      <a class="close-reveal-modal">&#215;</a>
+    </div>
+  </div>
+</header>
+
+      
+          <div id="middlecontent" title class="global-width sidebar-right">
+              <section id="main">
+                  <article id="post-2023/09/1694141476592/1694141476592" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      zxing开发之二维码
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2023/09/1694141476592/1694141476592/" class="article-date">
+  <time datetime="2023-09-08T02:51:16.000Z" itemprop="datePublished">2023-09-08 10:51:16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/J-Tools/">J-Tools</a>
+  </div>
+
+
+    
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QR/" rel="tag">QR</a></li></ul>
+
+
+  </div>
+  
+    <span id="busuanzi_container_page_pv">
+      
+        
+          本文总阅读量(次)：<span id="busuanzi_value_page_pv"></span>
+          <br/>
+        
+        
+          本文字数统计(字)：<span class="post-wordcount hidden-xs" itemprop="wordCount">1.3k</span>
+          <br/>
+        
+        
+          本文阅读时长(分)：<span class="post-readcount hidden-xs" itemprop="timeRequired">7</span>
+          <br/>
+        
+      
+    </span>
+  
+
+  <div class="article-inner">
+    
+
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <hr/>
+        <p>ZXing是Google开发的用于Java，Android的条形码扫描库。</p>
+<h3 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h3><div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="HTML"><figure class="iseeu highlight /html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.zxing<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javase<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.4.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.zxing<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.4.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure></div>
+
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="HTML"><figure class="iseeu highlight /html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br></pre></td><td class="code"><pre><span class="line">package com.yetech.hello.util;</span><br><span class="line"></span><br><span class="line">import com.google.zxing.BarcodeFormat;</span><br><span class="line">import com.google.zxing.EncodeHintType;</span><br><span class="line">import com.google.zxing.MultiFormatWriter;</span><br><span class="line">import com.google.zxing.WriterException;</span><br><span class="line">import com.google.zxing.client.j2se.MatrixToImageConfig;</span><br><span class="line">import com.google.zxing.common.BitMatrix;</span><br><span class="line">import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;</span><br><span class="line"></span><br><span class="line">import javax.imageio.ImageIO;</span><br><span class="line">import java.awt.*;</span><br><span class="line">import java.awt.geom.RoundRectangle2D;</span><br><span class="line">import java.awt.image.BufferedImage;</span><br><span class="line">import java.io.FileInputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line">import java.util.LinkedHashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 参考 https://www.wetools.com/qrcode</span><br><span class="line"> */</span><br><span class="line">public class QrCodeUtil {</span><br><span class="line"></span><br><span class="line">    // 二维码内容</span><br><span class="line">    private String content;</span><br><span class="line">    // 二维码大小-宽</span><br><span class="line">    private int qrWidth;</span><br><span class="line">    // 二维码大小-高</span><br><span class="line">    private int qrHeight;</span><br><span class="line">    // 二维码边框-内边距</span><br><span class="line">    private int qrMargin = 0;</span><br><span class="line">    // 二维码前景色</span><br><span class="line">    private Color onColor = new Color(0, 0, 0);</span><br><span class="line">    // 二维码背景色</span><br><span class="line">    private Color offColor = new Color(255, 255, 255);</span><br><span class="line">    // Logo</span><br><span class="line">    private InputStream logoPath;</span><br><span class="line">    // Logo 边框宽度</span><br><span class="line">    private int logoBorder = 0;</span><br><span class="line">    // Logo 边框背景色</span><br><span class="line">    private Color logoBorderColor = Color.WHITE;</span><br><span class="line">    // Logo 圆角大小</span><br><span class="line">    private int logoRoundCorner = 0;</span><br><span class="line"></span><br><span class="line">    // 属性</span><br><span class="line">    private Map<span class="tag">&lt;<span class="name">EncodeHintType,</span> <span class="attr">Object</span>&gt;</span> hints;</span><br><span class="line"></span><br><span class="line">    public static QrCodeUtil Builder() {</span><br><span class="line">        return new QrCodeUtil();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    public QrCodeUtil setHints(Map<span class="tag">&lt;<span class="name">EncodeHintType,</span> <span class="attr">Object</span>&gt;</span> hints) {</span><br><span class="line">        this.hints = hints;</span><br><span class="line">        return this;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    public QrCodeUtil setContent(String content) {</span><br><span class="line">        this.content = content;</span><br><span class="line">        return this;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    public QrCodeUtil setSize(int width, int height) {</span><br><span class="line">        this.qrWidth = width;</span><br><span class="line">        this.qrHeight = height;</span><br><span class="line">        return this;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    public QrCodeUtil setColor(Color onColor, Color offColor) {</span><br><span class="line">        this.onColor = onColor;</span><br><span class="line">        this.offColor = offColor;</span><br><span class="line">        return this;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    public QrCodeUtil setMargin(int margin) {</span><br><span class="line">        this.qrMargin = margin;</span><br><span class="line">        return this;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    public QrCodeUtil setLogo(FileInputStream logoPath) {</span><br><span class="line">        this.logoPath = logoPath;</span><br><span class="line">        return this;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    public QrCodeUtil setLogoBorder(int logoBorder, Color logoBorderColor) {</span><br><span class="line">        this.logoBorder = logoBorder;</span><br><span class="line">        this.logoBorderColor = logoBorderColor;</span><br><span class="line">        return this;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    public QrCodeUtil setLogoRoundCorner(int logoRoundCorner) {</span><br><span class="line">        this.logoRoundCorner = logoRoundCorner;</span><br><span class="line">        return this;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    // 创建二维码  ImageIO.write(bufferedImage, "png", outFile);</span><br><span class="line">    public BufferedImage create() throws WriterException {</span><br><span class="line">        try {</span><br><span class="line">            if (this.hints == null) {</span><br><span class="line">                this.hints = new LinkedHashMap<span class="tag">&lt;&gt;</span>(3);</span><br><span class="line">                //设置容错等级</span><br><span class="line">                this.hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);</span><br><span class="line">                //定义字符集，我们设置为utf-8</span><br><span class="line">                this.hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");</span><br><span class="line">                //设置边距，二维码边距空白宽度为0</span><br><span class="line">                this.hints.put(EncodeHintType.MARGIN, 0);</span><br><span class="line">            }</span><br><span class="line">            // 添加 hintType</span><br><span class="line">            BufferedImage bufferedImage = this.getBufferedImage(this.hints);</span><br><span class="line">            // 添加 logo</span><br><span class="line">            this.drawLogo(bufferedImage);</span><br><span class="line">            // 生成二维码图片</span><br><span class="line">            return bufferedImage;</span><br><span class="line">        } catch (WriterException e) {</span><br><span class="line">            System.out.println("生成二维码异常:" + e.getMessage());</span><br><span class="line">            throw new WriterException(e);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    private void drawLogo(BufferedImage image) {</span><br><span class="line">        if (this.logoPath != null) {</span><br><span class="line">            // 读取二维码图片，并构建绘图对象</span><br><span class="line">            Graphics2D graphics2D = image.createGraphics();</span><br><span class="line">            int imageWidth = image.getWidth(), imageHeight = image.getHeight();</span><br><span class="line">            // 设置消除锯齿</span><br><span class="line">            graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);</span><br><span class="line">            graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP));</span><br><span class="line">            try {</span><br><span class="line">                // 读取logo图片</span><br><span class="line">                BufferedImage logo = ImageIO.read(this.logoPath);</span><br><span class="line">                // 设置logo的大小,设置为二维码图片的20%,因为过大会盖掉二维码</span><br><span class="line">                int logoWidth = logo.getWidth(null) &gt; imageWidth * 3 / 10 ? (imageWidth * 3 / 10) : logo.getWidth(null);</span><br><span class="line">                int logoHeight = logo.getHeight(null) &gt; imageHeight * 3 / 10 ? (imageHeight * 3 / 10) : logo.getWidth(null);</span><br><span class="line">                // 定义logo位置x,y 放在中心,</span><br><span class="line">                int x = (imageWidth - logoWidth) / 2, y = (imageHeight - logoHeight) / 2;</span><br><span class="line">                // 设置logo 有一道边框 宽度（其实就是画一块贴面）</span><br><span class="line">                graphics2D.setStroke(new BasicStroke(this.logoBorder, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));</span><br><span class="line">                // logo边框颜色</span><br><span class="line">                graphics2D.setColor(this.logoBorderColor);</span><br><span class="line">                // logo边框弧形</span><br><span class="line">                graphics2D.draw(new RoundRectangle2D.Float(x, y, logoWidth, logoHeight, this.logoRoundCorner, this.logoRoundCorner));</span><br><span class="line">                // 绘制LOGO圆弧矩形</span><br><span class="line">                graphics2D.setClip(new RoundRectangle2D.Float(x, y, logoWidth, logoHeight, this.logoRoundCorner, this.logoRoundCorner));</span><br><span class="line">                // 开始绘制LOGO到二维码上</span><br><span class="line">                graphics2D.drawImage(logo, x, y, logoWidth, logoHeight, null);</span><br><span class="line">            } catch (IOException e) {</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            } finally {</span><br><span class="line">                //释放资源</span><br><span class="line">                graphics2D.dispose();</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    // 绘制二维码图片流</span><br><span class="line">    private BufferedImage getBufferedImage(Map<span class="tag">&lt;<span class="name">EncodeHintType,</span> <span class="attr">Object</span>&gt;</span> hints) throws WriterException {</span><br><span class="line">        // 生成矩阵</span><br><span class="line">        BitMatrix bitMatrix = new MultiFormatWriter().encode(this.content, BarcodeFormat.QR_CODE, this.qrWidth, this.qrHeight, hints);</span><br><span class="line">        // 更新白边边框 让生成的二维码在图片属性上跟我们设置的图片大小size一致</span><br><span class="line">        BitMatrix bitMatrixUpdate = this.updateBitMatrix(bitMatrix, this.qrMargin);</span><br><span class="line">        // 是否设置二维码背景色/前景色</span><br><span class="line">        MatrixToImageConfig matrixToImageConfig = new MatrixToImageConfig(this.onColor.getRGB(), this.offColor.getRGB());</span><br><span class="line">        // 生成二维码对象</span><br><span class="line">        int matrixUpdateWidth = bitMatrixUpdate.getWidth(), matrixUpdateHeight = bitMatrixUpdate.getHeight();</span><br><span class="line">        BufferedImage bufferedImage = new BufferedImage(matrixUpdateWidth, matrixUpdateHeight, BufferedImage.TYPE_INT_ARGB);</span><br><span class="line">        for (int x = 0; x <span class="tag">&lt; <span class="attr">matrixUpdateWidth</span>; <span class="attr">x</span>++) {</span></span><br><span class="line">            for (int y = 0; y &lt; matrixUpdateHeight; y++) {</span><br><span class="line">                bufferedImage.setRGB(x, y, bitMatrixUpdate.get(x, y) ? matrixToImageConfig.getPixelOnColor() : matrixToImageConfig.getPixelOffColor());</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        // 根据size放大、缩小生成的二维码</span><br><span class="line">        BufferedImage newImage = new BufferedImage(this.qrWidth, this.qrHeight, bufferedImage.getType());</span><br><span class="line">        Graphics g = newImage.getGraphics();</span><br><span class="line">        g.drawImage(bufferedImage, 0, 0, this.qrWidth, this.qrHeight, null);</span><br><span class="line">        g.dispose();</span><br><span class="line">        return newImage;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    // 因为二维码边框设置那里不起作用，不管设置多少，都会生成白边，所以需要自定义控制白边宽度，</span><br><span class="line">    // 该方法生成自定义白边框后的bitMatrix</span><br><span class="line">    private BitMatrix updateBitMatrix(BitMatrix matrix, int margin) {</span><br><span class="line">        int tempM = margin * 2;</span><br><span class="line">        int[] rec = matrix.getEnclosingRectangle(); // 获取二维码图案的属性</span><br><span class="line">        int resWidth = rec[2] + tempM;</span><br><span class="line">        int resHeight = rec[3] + tempM;</span><br><span class="line">        BitMatrix resMatrix = new BitMatrix(resWidth, resHeight); // 按照自定义边框生成新的BitMatrix</span><br><span class="line">        resMatrix.clear();</span><br><span class="line">        for (int i = margin; i <span class="tag">&lt; <span class="attr">resWidth</span> <span class="attr">-</span> <span class="attr">margin</span>; <span class="attr">i</span>++) { // 循环，将二维码图案绘制到新的<span class="attr">bitMatrix</span>中</span></span><br><span class="line">            for (int j = margin; j &lt; resHeight - margin; j++) {</span><br><span class="line">                if (matrix.get(i - margin + rec[0], j - margin + rec[1])) {</span><br><span class="line">                    resMatrix.set(i, j);</span><br><span class="line">                }</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        return resMatrix;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></div>
+
+<h3 id="生成"><a href="#生成" class="headerlink" title="生成"></a>生成</h3><h4 id="普通二维码"><a href="#普通二维码" class="headerlink" title="普通二维码"></a>普通二维码</h4><div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="HTML"><figure class="iseeu highlight /html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Map<span class="tag">&lt;<span class="name">EncodeHintType,</span> <span class="attr">Object</span>&gt;</span> hints = new LinkedHashMap<span class="tag">&lt;&gt;</span>();</span><br><span class="line">hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);</span><br><span class="line">//定义字符集，我们设置为utf-8</span><br><span class="line">hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");</span><br><span class="line">ImageIO.write(QrCodeUtil.Builder().setContent("普通二维码")</span><br><span class="line">        .setSize(300, 300)</span><br><span class="line">        .setHints(hints)</span><br><span class="line">        .create(), "png", new File("E:\\qrcode\\zxingNormal.png"));</span><br></pre></td></tr></tbody></table></figure></div>
+
+<h4 id="彩色二维码"><a href="#彩色二维码" class="headerlink" title="彩色二维码"></a>彩色二维码</h4><div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="HTML"><figure class="iseeu highlight /html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 设置颜色1</span><br><span class="line">ImageIO.write(QrCodeUtil.Builder().setContent("黑白二维码")</span><br><span class="line">        .setSize(300, 300)</span><br><span class="line">        .setColor(new Color(0, 0, 0), new Color(255, 255, 255))</span><br><span class="line">        .create(), "png", new File("E:\\qrcode\\zxingNorma2.png"));</span><br><span class="line">// 设置颜色2</span><br><span class="line">ImageIO.write(QrCodeUtil.Builder().setContent("彩色二维码")</span><br><span class="line">        .setSize(300, 300)</span><br><span class="line">        .setColor(new Color(255, 0, 0), new Color(0, 0, 255))</span><br><span class="line">        .create(), "png", new File("E:\\qrcode\\zxingNorma3.png"));</span><br></pre></td></tr></tbody></table></figure></div>
+
+<h4 id="LOGO二维码"><a href="#LOGO二维码" class="headerlink" title="LOGO二维码"></a>LOGO二维码</h4><div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="HTML"><figure class="iseeu highlight /html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ImageIO.write(QrCodeUtil.Builder().setContent("LOGO二维码")</span><br><span class="line">        .setSize(300, 300).setMargin(0)</span><br><span class="line">        .setLogo(new FileInputStream(new File("E:\\qrcode\\logo.png")))</span><br><span class="line">        .setLogoBorder(10, Color.RED).setLogoRoundCorner(10)</span><br><span class="line">        .create(), "png", new File("E:\\qrcode\\zxingNorma4.png"));</span><br></pre></td></tr></tbody></table></figure></div><script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
+      
+    </div>
+    
+      <footer class="article-footer">
+        完
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  <div class="article-nav-block">
+    
+      <a href="/2024/06/1718257945709/1718257945709/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption"></strong>
+        <div class="article-nav-title">
+          
+            OkHttp3 工具类
+          
+        </div>
+      </a>
+    
+  </div>
+  <div class="article-nav-block">
+    
+      <a href="/2023/08/1693278562635/1693278562635/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">JetBrains的IDE中EvalReset的使用(重置试用期)</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
+    
+  </div>
+</nav>
+
+    <link rel="stylesheet" href="/css/gitment.css"> 
+<script src="/js/gitment.js"></script>
+
+  <hr/>
+  <div class="my_post_copyright">
+      <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+      <!-- JS库 sweetalert 可修改路径 -->
+      <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+      <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+      <p><span>本文标题:</span>zxing开发之二维码</p>
+      <p><span>文章作者:</span>十二</p>
+      <p><span>发布时间:</span>2023-09-08 10:51:16</p>
+      <p><span>最后更新:</span><time datetime="2023-09-11T03:20:46.582Z" itemprop="datePublished">2023-09-11 11:20:46</time></p>
+      <p><span>原始链接:</span><a href="https://www.zhuqiaolun.com/2023/09/1694141476592/1694141476592/" title="zxing开发之二维码">https://www.zhuqiaolun.com/2023/09/1694141476592/1694141476592/</a></p>
+      <p><span>许可协议:</span><a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+  </div>
+  
+
+</article>
+
+
+              </section>
+              <aside id="sidebar">
+  
+    
+<div class="widget-box">
+  <div class="avatar-box">
+    <img class="avatar" src="/images/favicon.ico" title="DEMON"  alt="头像"/>
+    <h3 class="avatar-name">
+      
+        十二
+      
+    </h3>
+    <p id="avatar-slogan" class="avatar-slogan">
+      我想起那天夕阳下的奔跑，那是我逝去的青春。
+    </p>
+  </div>
+</div>
+
+
+  
+    
+  <div class="widget-box">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ElasticSearch/">ElasticSearch</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Freemarker/">Freemarker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go-FastDfs/">Go-FastDfs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDEA/">IDEA</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/J-Package/">J-Package</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/J-Tools/">J-Tools</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaFx/">JavaFx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kafka/">Kafka</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Logger/">Logger</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Maven/">Maven</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyCat/">MyCat</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySql/">MySql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OceanBase/">OceanBase</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/RabbitMq/">RabbitMq</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SVN/">SVN</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tomcat/">Tomcat</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebService/">WebService</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kubernetes/">kubernetes</a><span class="category-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-box">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">二月 2025</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">十二月 2024</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">六月 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">八月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">七月 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+  
+      <div class="widget-box">
+    <h3 class="widget-title">作品</h3>
+    <div class="widget">
+      
+        <a style="display: block;" href="https://www.zhuqiaolun.com/weixinz/" title target='_blank'
+        >我的微信</a>
+      
+        <a style="display: block;" href="/file" title target='_blank'
+        >我的文件</a>
+      
+    </div>
+  </div>
+
+  
+  <div class="widget-box">
+      <h3 class="widget-title">网站信息</h3>
+      <!-- 添加网站运行时间  start -->
+      
+      <div class="widget">
+          <span id="timeDate">本站运行时间统计： </span><span id="times">载入中...</span>
+          <script>
+              let now = new Date();
+              function createTime() {
+                  //此处修改你的建站时间或者网站上线时间
+                  let grt = new Date('05/13/2020 10:37:11');//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+                  now.setTime(now.getTime()+250);
+                  days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+                  hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+                  if(String(hnum).length === 1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+                  mnum = Math.floor(minutes); if(String(mnum).length === 1 ){mnum = "0" + mnum;}
+                  seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+                  snum = Math.round(seconds); if(String(snum).length === 1 ){snum = "0" + snum;}
+                  document.getElementById("timeDate").innerHTML = "本站运行时间统计："+dnum+" 天 ";
+                  document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+              }
+              setInterval(createTime, 250);
+          </script>
+      </div>
+      
+      <div class="widget">
+          <!-- 网站统计 start -->
+          
+              <div>
+                  <span class="post-count">本站文章字数统计：96.9k</span>
+              </div>
+              <div>
+                  <span class="post-count">本站文章数量统计：132</span>
+              </div>
+          
+          <!-- 网站统计 end -->
+      </div>
+  </div>
+</aside>
+
+
+          </div>
+      
+      <footer id="footer">
+  <div class="foot-box global-width">
+    &copy; 2025 十二
+    &nbsp;|&nbsp;
+    <a href="https://beian.miit.gov.cn/" target="_blank">鄂ICP备18019781号-1</a>
+    &nbsp;|&nbsp;
+    <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=42118202000044" target="_blank">
+      <img class="img" style="border: 0;position: relative;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAWCAYAAADAQbwGAAAACXBIWXMAAAsTAAALEwEAmpwYAAA5z2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS41LWMwMTQgNzkuMTUxNDgxLCAyMDEzLzAzLzEzLTEyOjA5OjE1ICAgICAgICAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgICAgICAgICB4bWxuczpzdEV2dD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlRXZlbnQjIgogICAgICAgICAgICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgICAgICAgICAgIHhtbG5zOnBob3Rvc2hvcD0iaHR0cDovL25zLmFkb2JlLmNvbS9waG90b3Nob3AvMS4wLyIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIj4KICAgICAgICAgPHhtcDpDcmVhdG9yVG9vbD5BZG9iZSBQaG90b3Nob3AgQ0MgKFdpbmRvd3MpPC94bXA6Q3JlYXRvclRvb2w+CiAgICAgICAgIDx4bXA6Q3JlYXRlRGF0ZT4yMDE5LTA5LTIzVDEyOjA5OjI4KzA4OjAwPC94bXA6Q3JlYXRlRGF0ZT4KICAgICAgICAgPHhtcDpNZXRhZGF0YURhdGU+MjAxOS0wOS0yM1QxMjowOToyOCswODowMDwveG1wOk1ldGFkYXRhRGF0ZT4KICAgICAgICAgPHhtcDpNb2RpZnlEYXRlPjIwMTktMDktMjNUMTI6MDk6MjgrMDg6MDA8L3htcDpNb2RpZnlEYXRlPgogICAgICAgICA8eG1wTU06SW5zdGFuY2VJRD54bXAuaWlkOjg0OTNiNTZlLWM2MmMtY2I0Zi1hMzBmLWM5ZDk3MGNjZTkyMjwveG1wTU06SW5zdGFuY2VJRD4KICAgICAgICAgPHhtcE1NOkRvY3VtZW50SUQ+eG1wLmRpZDo5MmFhMDM0YS1lMDk3LTc3NDktYWI1YS03ZTJiMTI1MTk2ZjY8L3htcE1NOkRvY3VtZW50SUQ+CiAgICAgICAgIDx4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ+eG1wLmRpZDo5MmFhMDM0YS1lMDk3LTc3NDktYWI1YS03ZTJiMTI1MTk2ZjY8L3htcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD4KICAgICAgICAgPHhtcE1NOkhpc3Rvcnk+CiAgICAgICAgICAgIDxyZGY6U2VxPgogICAgICAgICAgICAgICA8cmRmOmxpIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmFjdGlvbj5jcmVhdGVkPC9zdEV2dDphY3Rpb24+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDppbnN0YW5jZUlEPnhtcC5paWQ6OTJhYTAzNGEtZTA5Ny03NzQ5LWFiNWEtN2UyYjEyNTE5NmY2PC9zdEV2dDppbnN0YW5jZUlEPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6d2hlbj4yMDE5LTA5LTIzVDEyOjA5OjI4KzA4OjAwPC9zdEV2dDp3aGVuPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6c29mdHdhcmVBZ2VudD5BZG9iZSBQaG90b3Nob3AgQ0MgKFdpbmRvd3MpPC9zdEV2dDpzb2Z0d2FyZUFnZW50PgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgICAgPHJkZjpsaSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDphY3Rpb24+c2F2ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0Omluc3RhbmNlSUQ+eG1wLmlpZDo4NDkzYjU2ZS1jNjJjLWNiNGYtYTMwZi1jOWQ5NzBjY2U5MjI8L3N0RXZ0Omluc3RhbmNlSUQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDp3aGVuPjIwMTktMDktMjNUMTI6MDk6MjgrMDg6MDA8L3N0RXZ0OndoZW4+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpzb2Z0d2FyZUFnZW50PkFkb2JlIFBob3Rvc2hvcCBDQyAoV2luZG93cyk8L3N0RXZ0OnNvZnR3YXJlQWdlbnQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpjaGFuZ2VkPi88L3N0RXZ0OmNoYW5nZWQ+CiAgICAgICAgICAgICAgIDwvcmRmOmxpPgogICAgICAgICAgICA8L3JkZjpTZXE+CiAgICAgICAgIDwveG1wTU06SGlzdG9yeT4KICAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9wbmc8L2RjOmZvcm1hdD4KICAgICAgICAgPHBob3Rvc2hvcDpDb2xvck1vZGU+MzwvcGhvdG9zaG9wOkNvbG9yTW9kZT4KICAgICAgICAgPHRpZmY6T3JpZW50YXRpb24+MTwvdGlmZjpPcmllbnRhdGlvbj4KICAgICAgICAgPHRpZmY6WFJlc29sdXRpb24+NzIwMDAwLzEwMDAwPC90aWZmOlhSZXNvbHV0aW9uPgogICAgICAgICA8dGlmZjpZUmVzb2x1dGlvbj43MjAwMDAvMTAwMDA8L3RpZmY6WVJlc29sdXRpb24+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDxleGlmOkNvbG9yU3BhY2U+NjU1MzU8L2V4aWY6Q29sb3JTcGFjZT4KICAgICAgICAgPGV4aWY6UGl4ZWxYRGltZW5zaW9uPjIwPC9leGlmOlBpeGVsWERpbWVuc2lvbj4KICAgICAgICAgPGV4aWY6UGl4ZWxZRGltZW5zaW9uPjIyPC9leGlmOlBpeGVsWURpbWVuc2lvbj4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgCjw/eHBhY2tldCBlbmQ9InciPz4jh4n+AAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAATMSURBVHjarNVbbBR1FMfx78zOzs5Od7v3btcuEmgFilyqgNdaBI1cAgUxIWCMikFEjRqJPGh8IRgDLxjReAliFEKMCglJIQSoNcolgjEQAbmUUqC7pbS73XZnd2d3ZmfHB7GKwfji7+08/D/5n+T/P0ewbZv/MxJAme4bRTVQBcZxOvcd4I5FL9YWLp1o/X7fz8+X9LL88GNTtwSnTNl9dtdXicaFS0CuB/pJX9gNQGjcmj/AW2QWsPqLF19vtfVOpaek4gj4Kew894H+Sdt7zY+MbQM+B/b886B4C0zp+Hhrx9Or2pfmileUcR4HK5XrrFZ6eOD+KMH7o9LKVQcfP7B5Qxvg+i8wXjqxfv/7O4ZZvnIsz8az+D49Q/q8RbrLYnjBJyyyTvHatmVs2WVin//sW0D5N7Dx6p63u1oWnGrxN0R5OXyK7h1ZxFF+LM2AUgUh4ufoK0dYqp4g+uBdPLpg78KBw1svAeNvAvNnu5CK+z1t573y8d7pzJuukTuZRbw6jOB34Rq0KB65jnNMCCWnk/ryGEvmGHRcnMj2Q1bMI+TdwTHP3HTDeOWn7zZVBDdIBaq1XrJ94LRMGCwi1KvI0/yI1/LIVEh169QFSyAIZHIiroi0CRgzAl45d/AJI5lsDnhkKLuwYzHCzbXksNEeCGEtj+NZ14T62hTEiErNtDD5ggG2TaxGhcTJWYM9R58bAVVPoDGrmYyNFEEJceCYijS7mvTC0VhJDeHXPIW91zG7h5DXNhN8fSo7t2WAKpomS+S7+ikmuuIjYGWwd2E2IzEprhG/R+aj7VX8sCFB04wYPtVL4UyGSn+J4qkM3uQQp9dfYPM2F9EmP5PrhkklS5iD55pHQFHK+7WsSPXABZbOsSibHsw9fYS+/gWxzokRcVCpkQjPjhHruERqy2nyhoMlrU686U60rITkFZ0jX8+t3t4ujr/cakXrWHGvxqa6CB8lGzF7zhBKdyL63OhnMmgNNSQDMb4R3VDtZ8V9/ZS9cfx3CqiBUXtHQBBr7KxNb5fGpMZu3nljGm+vbWGPNhmyJq2FNEG/yM69XnKoQIA1LynMaOiktxMoFqiUtakjoOQ3ppe9Ucw+k0T/WV5tdrGkvYqOfQXOiVOYO/EiMXeKclsdRkZn1ASVt+Ze5vrRyxRMBSUsI/nlCQCCbduUcsefTB/buEPvMyilTEhcoX5xE66oAlYaKy2R69fxjQnC6BAkUnTvPo/uDeMZ68Fdq+JrWD5TDsz/8U8Qh+B6avD0pg+tou5LHepDqrKpndmINahjFvKIqoISrEKQnaSPdlG2JHzT6zGLpH3jW5bJTrVdDsz/o+VSqgLoyWKfW1eiFV90dgPWcB5Ly4Iq45D9yG4whnLkExmU0SGUeJTSUIFiUrPdo3IY5AgGbjwbB4dxcPjNmru9tc5AjNJwhYolUbEcFAc0sCsY6WFynQMIDicIAsVrKZxukehDsbCsai/IqvbXxHaFZgAszvQe2mgkflshOwpVashFOW+AYOIoDVHWDbwTwjgUB4aeQ6wKIwRqr5al+i2KGnn3phVwIwXglczZ6Dp9eGBeyeyZedvEyMSKJngUvxiU3F60a1x1R/wFqabl5GBXf7t+JXNg9ENU/j4Phf97Sf0+ADr3CMhtMiuNAAAAAElFTkSuQmCC" alt="">
+      鄂公网安备42118202000044号</a>
+    <br>
+    驱动于 <a href="http://hexo.io/" target="_blank">Hexo</a>
+    &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity" target="_blank" rel="noopener">antiquity</a>
+    &nbsp;|&nbsp;
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">不蒜子告之   阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+  </div>
+</footer>
+
+      <script src="/js/jquery-2.0.3.min.js"></script>
+<script>
+if (!window.jQuery) {
+  var script = document.createElement('script');
+  script.src = "/js/jquery-2.0.3.min.js";
+  document.body.write(script);
+}
+</script>
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/clipboard-use.js"></script>
+
+
+<script src="/js/jquery.reveal.js"></script>
+
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/custom.js"></script>
+
+
+
+
+
+    </div>
+    <nav id="mobile-nav" class="mobile-nav-box">
+  <div class="mobile-nav-img mobile-nav-top"></div>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+    <a href="/file" class="mobile-nav-link">文件</a>
+  
+    <a href="https://github.com/zhuqiaolun" target="_blank" rel="noopener" class="mobile-nav-link">Github</a>
+  
+  <div class="mobile-nav-img  mobile-nav-bottom"></div>
+</nav>
+  </div>
+</body>
+</html>

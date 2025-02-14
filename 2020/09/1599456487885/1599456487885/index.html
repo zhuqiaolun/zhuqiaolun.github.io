@@ -22,7 +22,7 @@
 <meta property="og:image" content="https://www.zhuqiaolun.com/2020/09/1599456487885/1599456487885/20200907133809.png">
 <meta property="og:image" content="https://www.zhuqiaolun.com/2020/09/1599456487885/1599456487885/20200907135626.png">
 <meta property="article:published_time" content="2020-09-07T05:28:07.000Z">
-<meta property="article:modified_time" content="2021-03-10T06:08:01.620Z">
+<meta property="article:modified_time" content="2022-07-14T09:37:44.517Z">
 <meta property="article:author" content="十二">
 <meta property="article:tag" content="Linux，Nginx，SSL">
 <meta name="twitter:card" content="summary">
@@ -71,6 +71,10 @@
         <a class="nav-item" href="/about" title=""
         
         >关于</a>
+      
+        <a class="nav-item" href="/file" title=""
+        
+        >文件</a>
       
         <a class="nav-item" href="https://github.com/zhuqiaolun" title=""
         
@@ -128,11 +132,11 @@
           <br/>
         
         
-          本文字数统计(字)：<span class="post-wordcount hidden-xs" itemprop="wordCount">490</span>
+          本文字数统计(字)：<span class="post-wordcount hidden-xs" itemprop="wordCount">597</span>
           <br/>
         
         
-          本文阅读时长(分)：<span class="post-readcount hidden-xs" itemprop="timeRequired">2</span>
+          本文阅读时长(分)：<span class="post-readcount hidden-xs" itemprop="timeRequired">3</span>
           <br/>
         
       
@@ -156,66 +160,13 @@ cp /usr/local/nginx/sbin/nginx /usr/local/nginx/sbin/nginx.bak       # 备份
 /usr/local/nginx/sbin/nginx -s stop # 停止服务
 cp ./objs/nginx /usr/local/nginx/sbin/  # 将刚刚编译好的nginx覆盖掉原有的nginx</code></pre><p><img src="/2020/09/1599456487885/1599456487885/20200907135626.png" alt="20200907135626"><br>当在此查看 /usr/local/nginx/sbin/nginx -V ，则表示开启成功</p>
 <h3 id="下载SSL证书"><a href="#下载SSL证书" class="headerlink" title="下载SSL证书"></a>下载SSL证书</h3><p>将已获取到的 1.证书文件和 2.私钥文件从本地目录拷贝到 Nginx 服务器的 /usr/local/nginx/conf 目录下<br>此处为 Nginx 默认安装目录，请根据实际情况操作</p>
-<h3 id="配置Https"><a href="#配置Https" class="headerlink" title="配置Https"></a>配置Https</h3><pre><code>user  root;
-worker_processes  1;
-error_log /usr/local/nginx/logs/nginx_error.log crit; 
-events {
-    worker_connections  1024;
-}
+<h3 id="配置Https"><a href="#配置Https" class="headerlink" title="配置Https"></a>配置Https</h3><p>以下为本机配置为例</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="HTML"><figure class="iseeu highlight /html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">user  root;</span><br><span class="line">worker_processes  1;</span><br><span class="line">error_log /usr/local/nginx/logs/nginx_error.log crit; </span><br><span class="line">events {</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">http {</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line">    sendfile        on;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line">    # 开启gzip压缩</span><br><span class="line">    gzip  on;</span><br><span class="line">    gzip_comp_level  5;</span><br><span class="line">    gzip_min_length  1024;</span><br><span class="line">    gzip_types   text/plain application/x-javascript text/css application/xml text/javascript  image/jpeg image/gif image/png;</span><br><span class="line">    # 隐藏nginx版本信息</span><br><span class="line">    server_tokens off;</span><br><span class="line"></span><br><span class="line">    server {</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  www.zhuqiaolun.com;</span><br><span class="line"></span><br><span class="line">        if ($scheme = http ) {</span><br><span class="line">            return  301 https://www.zhuqiaolun.com$request_uri;</span><br><span class="line">        }</span><br><span class="line">        location / {</span><br><span class="line">            root   html;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line"></span><br><span class="line">        location = /50x.html {</span><br><span class="line">            root   html;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    # HTTPS server</span><br><span class="line">    server {</span><br><span class="line">        listen 443 ssl;</span><br><span class="line">        server_name    www.zhuqiaolun.com;</span><br><span class="line">        root html; </span><br><span class="line">        index index.html index.htm;   </span><br><span class="line">        ssl_certificate www.zhuqiaolun.com.crt;</span><br><span class="line">        ssl_certificate_key www.zhuqiaolun.com.key;</span><br><span class="line">        ssl_session_timeout    10m;</span><br><span class="line">        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;</span><br><span class="line">        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">        ssl_session_cache shared:SSL:10m;</span><br><span class="line">        ssl_prefer_server_ciphers  on;</span><br><span class="line"></span><br><span class="line">        location / {</span><br><span class="line">            root   html/blog/;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">            #try_files $uri $uri/ /index.html;</span><br><span class="line">        }</span><br><span class="line">        </span><br><span class="line">        location /file {</span><br><span class="line">            alias  html/file/; #目录文件服务器根目录</span><br><span class="line">            if ($request_filename ~* ^.*?\.(html|doc|pdf|zip|docx|txt|mp4|rar)$) {</span><br><span class="line">                add_header Content-Disposition attachment;</span><br><span class="line">                add_header Content-Type application/octet-stream;</span><br><span class="line">            }</span><br><span class="line">            sendfile on;   # 开启高效文件传输模式</span><br><span class="line">            autoindex on;  # 开启目录文件列表</span><br><span class="line">            autoindex_exact_size on;  # 显示出文件的确切大小，单位是bytes</span><br><span class="line">            autoindex_localtime on;  # 显示的文件时间为文件的服务器时间</span><br><span class="line">        }</span><br><span class="line">        </span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></div>
 
-http {
-    include       mime.types;
-    default_type  application/octet-stream;
-    sendfile        on;
-    keepalive_timeout  65;
-    # 开启gzip压缩
-    gzip  on;
-    gzip_comp_level  5;
-    gzip_min_length  1024;
-    gzip_types   text/plain application/x-javascript text/css application/xml text/javascript  image/jpeg image/gif image/png;
-    # 隐藏nginx版本信息
-    server_tokens off;
 
-    server {
-        listen       80;
-        server_name  www.zhuqiaolun.com;
 
-        if ($scheme = http ) {
-            return  301 https://www.zhuqiaolun.com$request_uri;
-        }
-        location / {
-            root   html;
-            index  index.html index.htm;
-        }
 
-        error_page   500 502 503 504  /50x.html;
-
-        location = /50x.html {
-            root   html;
-        }
-
-    }
-
-    # HTTPS server
-    server {
-        listen 443 ssl;
-        server_name    www.zhuqiaolun.com;
-        root html; 
-        index index.html index.htm;   
-        ssl_certificate www.zhuqiaolun.com.crt;
-        ssl_certificate_key www.zhuqiaolun.com.key;
-        ssl_session_timeout    10m;
-        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;
-        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-        ssl_session_cache shared:SSL:10m;
-        ssl_prefer_server_ciphers  on;
-
-        location / {
-            root   html;
-            index  index.html index.htm;
-        }
-    }
-}</code></pre><h3 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h3><p>Nginx SSL性能调优</p>
+<h3 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h3><p>Nginx SSL性能调优</p>
 <pre><code>ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
 ssl_ciphers ECDHE-RSA-AES256-SHA384:AES256-SHA256:RC4:HIGH:!MD5:!aNULL:!eNULL:!NULL:!DH:!EDH:!AESGCM;
 ssl_prefer_server_ciphers on;
@@ -285,7 +236,7 @@ ssl_session_timeout 10m;</code></pre><script>
       <p><span>本文标题:</span>Nginx 服务器证书SSL安装</p>
       <p><span>文章作者:</span>十二</p>
       <p><span>发布时间:</span>2020-09-07 13:28:07</p>
-      <p><span>最后更新:</span><time datetime="2021-03-10T06:08:01.620Z" itemprop="datePublished">2021-03-10 14:08:01</time></p>
+      <p><span>最后更新:</span><time datetime="2022-07-14T09:37:44.517Z" itemprop="datePublished">2022-07-14 17:37:44</time></p>
       <p><span>原始链接:</span><a href="https://www.zhuqiaolun.com/2020/09/1599456487885/1599456487885/" title="Nginx 服务器证书SSL安装">https://www.zhuqiaolun.com/2020/09/1599456487885/1599456487885/</a></p>
       <p><span>许可协议:</span><a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
   </div>
@@ -318,7 +269,7 @@ ssl_session_timeout 10m;</code></pre><script>
   <div class="widget-box">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ElasticSearch/">ElasticSearch</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go-FastDfs/">Go-FastDfs</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/J-Tools/">J-Tools</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaFx/">JavaFx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kafka/">Kafka</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Maven/">Maven</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyCat/">MyCat</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/RabbitMq/">RabbitMq</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tomcat/">Tomcat</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebService/">WebService</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%96%E7%95%8C/">世界</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BA%E6%89%A9/">论扩</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ElasticSearch/">ElasticSearch</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Freemarker/">Freemarker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go-FastDfs/">Go-FastDfs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDEA/">IDEA</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/J-Package/">J-Package</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/J-Tools/">J-Tools</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaFx/">JavaFx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kafka/">Kafka</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Logger/">Logger</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Maven/">Maven</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyCat/">MyCat</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySql/">MySql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OceanBase/">OceanBase</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/RabbitMq/">RabbitMq</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SVN/">SVN</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tomcat/">Tomcat</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebService/">WebService</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kubernetes/">kubernetes</a><span class="category-list-count">10</span></li></ul>
     </div>
   </div>
 
@@ -328,7 +279,7 @@ ssl_session_timeout 10m;</code></pre><script>
   <div class="widget-box">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">8</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">二月 2025</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">十二月 2024</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">六月 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">八月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">七月 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">8</span></li></ul>
     </div>
   </div>
 
@@ -341,8 +292,8 @@ ssl_session_timeout 10m;</code></pre><script>
         <a style="display: block;" href="https://www.zhuqiaolun.com/weixinz/" title target='_blank'
         >我的微信</a>
       
-        <a style="display: block;" href="http://www.zhuqiaolun.com:8090/" title target='_blank'
-        >我的Halo</a>
+        <a style="display: block;" href="/file" title target='_blank'
+        >我的文件</a>
       
     </div>
   </div>
@@ -377,10 +328,10 @@ ssl_session_timeout 10m;</code></pre><script>
           <!-- 网站统计 start -->
           
               <div>
-                  <span class="post-count">本站文章字数统计：55.3k</span>
+                  <span class="post-count">本站文章字数统计：96.9k</span>
               </div>
               <div>
-                  <span class="post-count">本站文章数量统计：93</span>
+                  <span class="post-count">本站文章数量统计：132</span>
               </div>
           
           <!-- 网站统计 end -->
@@ -393,7 +344,7 @@ ssl_session_timeout 10m;</code></pre><script>
       
       <footer id="footer">
   <div class="foot-box global-width">
-    &copy; 2022 十二
+    &copy; 2025 十二
     &nbsp;|&nbsp;
     <a href="https://beian.miit.gov.cn/" target="_blank">鄂ICP备18019781号-1</a>
     &nbsp;|&nbsp;
@@ -455,6 +406,8 @@ if (!window.jQuery) {
     <a href="/archives" class="mobile-nav-link">归档</a>
   
     <a href="/about" class="mobile-nav-link">关于</a>
+  
+    <a href="/file" class="mobile-nav-link">文件</a>
   
     <a href="https://github.com/zhuqiaolun" target="_blank" rel="noopener" class="mobile-nav-link">Github</a>
   

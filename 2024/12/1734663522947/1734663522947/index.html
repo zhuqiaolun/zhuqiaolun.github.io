@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>【编程式配置】日志之 log4j2 配置（多文件输出） | zhuqiaolun - 个人博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  
+  
+  <meta name="keywords" content="log4j2，Logger" />
+  
+  <meta name="description" content="log4j2 配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【编程式配置】日志之 log4j2 配置（多文件输出）">
+<meta property="og:url" content="https://www.zhuqiaolun.com/2024/12/1734663522947/1734663522947/index.html">
+<meta property="og:site_name" content="zhuqiaolun - 个人博客">
+<meta property="og:description" content="log4j2 配置">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-12-20T02:58:42.000Z">
+<meta property="article:modified_time" content="2024-12-20T07:59:52.000Z">
+<meta property="article:author" content="十二">
+<meta property="article:tag" content="log4j2，Logger">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="zhuqiaolun - 个人博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<link rel="stylesheet" href="/css/highlight.css">
+
+  
+<link rel="stylesheet" href="/css/iconfont.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="fullpage" class="mobile-nav-left">
+    
+      <div id="wrapper" style="background-image: url(/images/bg.jpg)" >
+    
+      <header id="header">
+  <div id="nav-toggle" class="nav-toggle"></div>
+  <div class="head-box global-width">
+    <nav class="nav-box nav-left">
+      
+        <a class="nav-item" href="/" title=""
+        
+        >首页</a>
+      
+        <a class="nav-item" href="/archives" title=""
+        
+        >归档</a>
+      
+        <a class="nav-item" href="/about" title=""
+        
+        >关于</a>
+      
+        <a class="nav-item" href="/file" title=""
+        
+        >文件</a>
+      
+        <a class="nav-item" href="https://github.com/zhuqiaolun" title=""
+        
+          target="_blank"
+        
+        >Github</a>
+      
+      <a href="javaScript:void (0);" class="big-link" data-reveal-id="myModal" data-animation="fade" title="搜索"><i class="iconfont icon-chaxun"></i></a>
+    </nav>
+    <div id="myModal" class="reveal-modal">
+      <div id="site_search">
+          <input placeholder="站内搜索，输入自动查询" type="text" id="local-search-input" results="0"/>
+          <div id="local-search-result"></div>
+      </div>
+      <a class="close-reveal-modal">&#215;</a>
+    </div>
+  </div>
+</header>
+
+      
+          <div id="middlecontent" title class="global-width sidebar-right">
+              <section id="main">
+                  <article id="post-2024/12/1734663522947/1734663522947" class="article global-container article-type-post" itemscope itemprop="blogPost">
+  
+    <header class="article-header">
+      
+  
+    <h1 class="article-title" itemprop="name">
+      【编程式配置】日志之 log4j2 配置（多文件输出）
+    </h1>
+  
+
+    </header>
+  
+  <div class="article-meta">
+    <a href="/2024/12/1734663522947/1734663522947/" class="article-date">
+  <time datetime="2024-12-20T02:58:42.000Z" itemprop="datePublished">2024-12-20 10:58:42</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Logger/">Logger</a>
+  </div>
+
+
+    
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/log4j2/" rel="tag">log4j2</a></li></ul>
+
+
+  </div>
+  
+    <span id="busuanzi_container_page_pv">
+      
+        
+          本文总阅读量(次)：<span id="busuanzi_value_page_pv"></span>
+          <br/>
+        
+        
+          本文字数统计(字)：<span class="post-wordcount hidden-xs" itemprop="wordCount">1.8k</span>
+          <br/>
+        
+        
+          本文阅读时长(分)：<span class="post-readcount hidden-xs" itemprop="timeRequired">9</span>
+          <br/>
+        
+      
+    </span>
+  
+
+  <div class="article-inner">
+    
+
+    <div class="article-content article-content-cloud" itemprop="articleBody">
+      
+        <hr/>
+        <p>多文件输出：输出指定级别及以上的日志信息且写入对应的日志级别文件<br><a href="/2024/12/1734677869669/1734677869669/#多文件输出">XML配置#多文件输出</a></p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>当需要自定义日志目录的时候使用，一般在打包为jar的运行,获取jar打包之后的所在执行目录：</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="HTML"><figure class="iseeu highlight /html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">private static String getJarDir() {</span><br><span class="line">    String jarPath = App.class.getProtectionDomain().getCodeSource().getLocation().getPath();</span><br><span class="line">    try {</span><br><span class="line">        String decodedPath = URLDecoder.decode(jarPath, "UTF-8");</span><br><span class="line">        return new File(decodedPath).getParent();</span><br><span class="line">    } catch (UnsupportedEncodingException e) {</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return null;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></div>
+
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="HTML"><figure class="iseeu highlight /html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.logging.log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.13.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.logging.log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.13.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure></div>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="HTML"><figure class="iseeu highlight /html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.logging.log4j.Level;</span><br><span class="line">import org.apache.logging.log4j.LogManager;</span><br><span class="line">import org.apache.logging.log4j.core.Appender;</span><br><span class="line">import org.apache.logging.log4j.core.Filter;</span><br><span class="line">import org.apache.logging.log4j.core.LoggerContext;</span><br><span class="line">import org.apache.logging.log4j.core.appender.ConsoleAppender;</span><br><span class="line">import org.apache.logging.log4j.core.appender.RollingFileAppender;</span><br><span class="line">import org.apache.logging.log4j.core.appender.rolling.DefaultRolloverStrategy;</span><br><span class="line">import org.apache.logging.log4j.core.appender.rolling.SizeBasedTriggeringPolicy;</span><br><span class="line">import org.apache.logging.log4j.core.appender.rolling.TimeBasedTriggeringPolicy;</span><br><span class="line">import org.apache.logging.log4j.core.config.AppenderRef;</span><br><span class="line">import org.apache.logging.log4j.core.config.Configuration;</span><br><span class="line">import org.apache.logging.log4j.core.config.LoggerConfig;</span><br><span class="line">import org.apache.logging.log4j.core.filter.LevelMatchFilter;</span><br><span class="line">import org.apache.logging.log4j.core.layout.PatternLayout;</span><br><span class="line"></span><br><span class="line">import java.io.File;</span><br><span class="line">import java.nio.charset.Charset;</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.LinkedHashMap;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * author: Demon</span><br><span class="line"> * date: 2024-12-17 017 11:19</span><br><span class="line"> * description: 日志类</span><br><span class="line"> * // 日志级别：ALL &lt; TRACE &lt;&nbsp;DEBUG &lt; INFO &lt; WARN &lt; ERROR &lt; FATAL</span><br><span class="line"> * 两个配置项的三个属性值：</span><br><span class="line"> * onMatch="ACCEPT" 表示匹配该级别及以上</span><br><span class="line"> * onMatch="DENY" 表示不匹配该级别及以上</span><br><span class="line"> * onMatch="NEUTRAL" 表示该级别及以上的，由下一个filter处理，如果当前是最后一个，则表示匹配该级别及以上</span><br><span class="line"> * onMismatch="ACCEPT" 表示匹配该级别以下</span><br><span class="line"> * onMismatch="NEUTRAL" 表示该级别及以下的，由下一个filter处理，如果当前是最后一个，则不匹配该级别以下的</span><br><span class="line"> * onMismatch="DENY" 表示不匹配该级别以下的</span><br><span class="line"> */</span><br><span class="line">public class Log4j2Util {</span><br><span class="line"></span><br><span class="line">    private boolean traceFlag;</span><br><span class="line">    private boolean debugFlag;</span><br><span class="line">    private boolean infoFlag;</span><br><span class="line">    private boolean warnFlag;</span><br><span class="line">    private boolean errorFlag;</span><br><span class="line">    private boolean fatalFlag;</span><br><span class="line">    private List<span class="tag">&lt;<span class="name">PackLoggerVo</span>&gt;</span> packLoggerList;</span><br><span class="line"></span><br><span class="line">    private Log4j2Util(boolean traceFlag, boolean debugFlag, boolean infoFlag, boolean warnFlag, boolean errorFlag, boolean fatalFlag, List<span class="tag">&lt;<span class="name">PackLoggerVo</span>&gt;</span> packLoggerList) {</span><br><span class="line">        this.traceFlag = traceFlag;</span><br><span class="line">        this.debugFlag = debugFlag;</span><br><span class="line">        this.infoFlag = infoFlag;</span><br><span class="line">        this.warnFlag = warnFlag;</span><br><span class="line">        this.errorFlag = errorFlag;</span><br><span class="line">        this.fatalFlag = fatalFlag;</span><br><span class="line">        this.packLoggerList = packLoggerList;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    public static Builder newBuilder() {</span><br><span class="line">        return new Builder();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    private static Appender getFileAppender(PatternLayout layout, String logRootPath, Level level, String appenderName) {</span><br><span class="line">        //  日志文件名，根据日志级别取名</span><br><span class="line">        String fileName = level.toString().toLowerCase();</span><br><span class="line">        return RollingFileAppender.newBuilder().setName(appenderName)</span><br><span class="line">                // 过滤日志文件内容</span><br><span class="line">                .setFilter(LevelMatchFilter.newBuilder().setLevel(level).setOnMatch(Filter.Result.ACCEPT).setOnMismatch(Filter.Result.DENY).build())</span><br><span class="line">                // 日志文件输出的文件名，每天滚动生成一个新的日志文件</span><br><span class="line">                .withFileName(logRootPath + File.separator + fileName + ".log").withFilePattern(logRootPath + File.separator + "%d{yyyy-MM-dd}" + File.separator + fileName + ".logs-%i.log")</span><br><span class="line">                // 设置日志输出格式</span><br><span class="line">                .setLayout(layout)</span><br><span class="line">                // 基于时间间隔的滚动策略，设置日志文件滚动更新的时间(1个小时)，依赖于文件命名filePattern的设置</span><br><span class="line">                .withPolicy(TimeBasedTriggeringPolicy.newBuilder().withModulate(true).withInterval(1).build())</span><br><span class="line">                // 基于文件大小的滚动策略, 设置日志基础文件大小，超过该大小就触发日志文件滚动更新，单位可为 KB, MB, GB，TB, 比如：10MB</span><br><span class="line">                .withPolicy(SizeBasedTriggeringPolicy.createPolicy("10KB"))</span><br><span class="line">                // 设置日志的文件个数上限，不设置默认为7个，超过大小后会被覆盖；依赖于filePattern中的%i</span><br><span class="line">                .withStrategy(DefaultRolloverStrategy.newBuilder().withMax("30").build())</span><br><span class="line">                .build();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 加载日志</span><br><span class="line">     *</span><br><span class="line">     * @param logRootPath ，传 null 则不输出文件日志</span><br><span class="line">     */</span><br><span class="line">    public void init(String logRootPath) {</span><br><span class="line">        Map<span class="tag">&lt;<span class="name">Level,</span> <span class="attr">AppenderRef</span>&gt;</span> appenderRefMap = new LinkedHashMap<span class="tag">&lt;&gt;</span>();</span><br><span class="line">        Map<span class="tag">&lt;<span class="name">Level,</span> <span class="attr">Appender</span>&gt;</span> appenderMap = new LinkedHashMap<span class="tag">&lt;&gt;</span>();</span><br><span class="line">        // 配置</span><br><span class="line">        final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);</span><br><span class="line">        final Configuration config = ctx.getConfiguration();</span><br><span class="line">        // 输出格式</span><br><span class="line">        final PatternLayout layout = PatternLayout.newBuilder().withCharset(Charset.forName("UTF-8")).withConfiguration(config).withPattern("%d{yyyy-MM-dd HH:mm:ss.SSS,CTT}[%p][%t] %c[%L] %m %n").build();</span><br><span class="line"></span><br><span class="line">        // 1.输出到控制台</span><br><span class="line">        String consoleAppenderName = "CONSOLE_APPENDER";</span><br><span class="line">        ConsoleAppender consoleAppender = ConsoleAppender.newBuilder().setName(consoleAppenderName).setLayout(layout).build();</span><br><span class="line">        AppenderRef consoleAppenderRef = AppenderRef.createAppenderRef(consoleAppenderName, null, null);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        // 2.输出到文件，按照每天生成日志文件</span><br><span class="line">        if (logRootPath != null) {</span><br><span class="line">            // 日志输出级别</span><br><span class="line">            if (traceFlag) {</span><br><span class="line">                // TRACE</span><br><span class="line">                String traceAppenderName = "TRACE_APPENDER";</span><br><span class="line">                Appender traceAppender = getFileAppender(layout, logRootPath, Level.TRACE, traceAppenderName);</span><br><span class="line">                appenderRefMap.put(Level.TRACE, AppenderRef.createAppenderRef(traceAppenderName, null, null));</span><br><span class="line">                appenderMap.put(Level.TRACE, traceAppender);</span><br><span class="line">            }</span><br><span class="line">            if (debugFlag) {</span><br><span class="line">                // TRACE</span><br><span class="line">                String debugAppenderName = "DEBUG_APPENDER";</span><br><span class="line">                Appender debugAppender = getFileAppender(layout, logRootPath, Level.DEBUG, debugAppenderName);</span><br><span class="line">                appenderRefMap.put(Level.DEBUG, AppenderRef.createAppenderRef(debugAppenderName, null, null));</span><br><span class="line">                appenderMap.put(Level.DEBUG, debugAppender);</span><br><span class="line">            }</span><br><span class="line">            if (infoFlag) {</span><br><span class="line">                // INFO</span><br><span class="line">                String infoAppenderName = "INFO_APPENDER";</span><br><span class="line">                Appender infoAppender = getFileAppender(layout, logRootPath, Level.INFO, infoAppenderName);</span><br><span class="line">                appenderRefMap.put(Level.INFO, AppenderRef.createAppenderRef(infoAppenderName, null, null));</span><br><span class="line">                appenderMap.put(Level.INFO, infoAppender);</span><br><span class="line">            }</span><br><span class="line">            if (warnFlag) {</span><br><span class="line">                // WARN</span><br><span class="line">                String warnAppenderName = "WARN_APPENDER";</span><br><span class="line">                Appender warnAppender = getFileAppender(layout, logRootPath, Level.WARN, warnAppenderName);</span><br><span class="line">                appenderRefMap.put(Level.WARN, AppenderRef.createAppenderRef(warnAppenderName, null, null));</span><br><span class="line">                appenderMap.put(Level.WARN, warnAppender);</span><br><span class="line">            }</span><br><span class="line">            if (errorFlag) {</span><br><span class="line">                // ERROR</span><br><span class="line">                String errorAppenderName = "ERROR_APPENDER";</span><br><span class="line">                Appender errorAppender = getFileAppender(layout, logRootPath, Level.ERROR, errorAppenderName);</span><br><span class="line">                appenderRefMap.put(Level.ERROR, AppenderRef.createAppenderRef(errorAppenderName, null, null));</span><br><span class="line">                appenderMap.put(Level.ERROR, errorAppender);</span><br><span class="line">            }</span><br><span class="line">            if (fatalFlag) {</span><br><span class="line">                // FATAL</span><br><span class="line">                String fatalAppenderName = "FATAL_APPENDER";</span><br><span class="line">                Appender fatalAppender = getFileAppender(layout, logRootPath, Level.FATAL, fatalAppenderName);</span><br><span class="line">                appenderRefMap.put(Level.FATAL, AppenderRef.createAppenderRef(fatalAppenderName, null, null));</span><br><span class="line">                appenderMap.put(Level.FATAL, fatalAppender);</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        // Root -&gt; Logger配置</span><br><span class="line">        List<span class="tag">&lt;<span class="name">AppenderRef</span>&gt;</span> appenderRefList = new ArrayList<span class="tag">&lt;&gt;</span>(appenderRefMap.values());</span><br><span class="line">        appenderRefList.add(consoleAppenderRef);</span><br><span class="line">        LoggerConfig loggerConfig = LoggerConfig.createLogger(false, Level.ALL, LogManager.ROOT_LOGGER_NAME, "true", appenderRefList.toArray(new AppenderRef[0]), null, config, null);</span><br><span class="line">        loggerConfig.addAppender(consoleAppender, null, null);</span><br><span class="line">        for (Appender appender : appenderMap.values()) {</span><br><span class="line">            loggerConfig.addAppender(appender, null, null);</span><br><span class="line">        }</span><br><span class="line">        // 针对特定包的Logger配置,"" 就是所有,也可以指定路径输出，可多个addLogger&amp;loggerConfig</span><br><span class="line">        // 必须</span><br><span class="line">        config.addLogger(LogManager.ROOT_LOGGER_NAME, loggerConfig);</span><br><span class="line">        // 选配</span><br><span class="line">        if (packLoggerList.size() &gt; 0) {</span><br><span class="line">            for (PackLoggerVo packLoggerVo : packLoggerList) {</span><br><span class="line">                List<span class="tag">&lt;<span class="name">AppenderRef</span>&gt;</span> appenderRefListTemp = new ArrayList<span class="tag">&lt;&gt;</span>();</span><br><span class="line">                List<span class="tag">&lt;<span class="name">Appender</span>&gt;</span> appenderListTemp = new ArrayList<span class="tag">&lt;&gt;</span>();</span><br><span class="line">                if (packLoggerVo.isConsoleFlag()) {</span><br><span class="line">                    appenderRefListTemp.add(consoleAppenderRef);</span><br><span class="line">                    appenderListTemp.add(consoleAppender);</span><br><span class="line">                }</span><br><span class="line">                if (packLoggerVo.isFileFlag()) {</span><br><span class="line">                    Level[] packLoggerVoLevels = packLoggerVo.getLevels();</span><br><span class="line">                    for (Level loggerVoLevel : packLoggerVoLevels) {</span><br><span class="line">                        if (appenderRefMap.containsKey(loggerVoLevel)) {</span><br><span class="line">                            appenderRefListTemp.add(appenderRefMap.get(loggerVoLevel));</span><br><span class="line">                            appenderListTemp.add(appenderMap.get(loggerVoLevel));</span><br><span class="line">                        }</span><br><span class="line">                    }</span><br><span class="line">                }</span><br><span class="line">                if (appenderRefListTemp.size() &gt; 0) {</span><br><span class="line">                    LoggerConfig loggerConfig2 = LoggerConfig.createLogger(false, Level.ALL, packLoggerVo.getPackageName(), "true", appenderRefListTemp.toArray(new AppenderRef[0]), null, config, null);</span><br><span class="line">                    for (Appender appender : appenderListTemp) {</span><br><span class="line">                        loggerConfig2.addAppender(appender, null, null);</span><br><span class="line">                    }</span><br><span class="line">                    config.addLogger(packLoggerVo.getPackageName(), loggerConfig2);</span><br><span class="line">                }</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        ctx.updateLoggers();</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    public static class Builder {</span><br><span class="line"></span><br><span class="line">        private boolean traceFlag = false;</span><br><span class="line">        private boolean debugFlag = false;</span><br><span class="line">        private boolean infoFlag = false;</span><br><span class="line">        private boolean warnFlag = false;</span><br><span class="line">        private boolean errorFlag = false;</span><br><span class="line">        private boolean fatalFlag = false;</span><br><span class="line">        private List<span class="tag">&lt;<span class="name">PackLoggerVo</span>&gt;</span> packLoggerList = new ArrayList<span class="tag">&lt;&gt;</span>();</span><br><span class="line"></span><br><span class="line">        public Builder withTraceFlag(final boolean traceFlag) {</span><br><span class="line">            this.traceFlag = traceFlag;</span><br><span class="line">            return this;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        public Builder withDebugFlag(boolean debugFlag) {</span><br><span class="line">            this.debugFlag = debugFlag;</span><br><span class="line">            return this;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        public Builder withInfoFlag(boolean infoFlag) {</span><br><span class="line">            this.infoFlag = infoFlag;</span><br><span class="line">            return this;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        public Builder withWarnFlag(boolean warnFlag) {</span><br><span class="line">            this.warnFlag = warnFlag;</span><br><span class="line">            return this;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        public Builder withErrorFlag(boolean errorFlag) {</span><br><span class="line">            this.errorFlag = errorFlag;</span><br><span class="line">            return this;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        public Builder withFatalFlag(boolean fatalFlag) {</span><br><span class="line">            this.fatalFlag = fatalFlag;</span><br><span class="line">            return this;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        public Builder addPackLogger(final String packageName, boolean consoleFlag, boolean fileFlag, final Level... levels) {</span><br><span class="line">            if (packageName != null &amp;&amp; packageName.length() &gt; 0) {</span><br><span class="line">                packLoggerList.add(new PackLoggerVo().setPackageName(packageName).setConsoleFlag(consoleFlag).setFileFlag(fileFlag).setLevels(levels));</span><br><span class="line">            }</span><br><span class="line">            return this;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        public Log4j2Util build() {</span><br><span class="line">            return new Log4j2Util(traceFlag, debugFlag, infoFlag, warnFlag, errorFlag, fatalFlag, packLoggerList);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    public static class PackLoggerVo {</span><br><span class="line">        private String packageName;</span><br><span class="line">        private boolean consoleFlag;</span><br><span class="line">        private boolean fileFlag;</span><br><span class="line">        private Level[] levels;</span><br><span class="line"></span><br><span class="line">        String getPackageName() {</span><br><span class="line">            return packageName;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        PackLoggerVo setPackageName(String packageName) {</span><br><span class="line">            this.packageName = packageName;</span><br><span class="line">            return this;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        boolean isConsoleFlag() {</span><br><span class="line">            return consoleFlag;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        PackLoggerVo setConsoleFlag(boolean consoleFlag) {</span><br><span class="line">            this.consoleFlag = consoleFlag;</span><br><span class="line">            return this;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        boolean isFileFlag() {</span><br><span class="line">            return fileFlag;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        PackLoggerVo setFileFlag(boolean fileFlag) {</span><br><span class="line">            this.fileFlag = fileFlag;</span><br><span class="line">            return this;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        Level[] getLevels() {</span><br><span class="line">            return levels;</span><br><span class="line">        }</span><br><span class="line"></span><br><span class="line">        PackLoggerVo setLevels(Level[] levels) {</span><br><span class="line">            this.levels = levels;</span><br><span class="line">            return this;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></div>
+
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>定义日志配置1：控制台输出</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="HTML"><figure class="iseeu highlight /html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Log4j2Util.newBuilder().withTraceFlag(false)</span><br><span class="line">                    .withDebugFlag(true).withInfoFlag(true).withWarnFlag(true).withErrorFlag(true)</span><br><span class="line">                    .withFatalFlag(false)</span><br><span class="line">                    .build().init();</span><br></pre></td></tr></tbody></table></figure></div>
+
+<p>定义日志配置2：文件输出</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="HTML"><figure class="iseeu highlight /html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Log4j2Util.newBuilder().withTraceFlag(false)</span><br><span class="line">                    .withDebugFlag(true).withInfoFlag(true).withWarnFlag(true).withErrorFlag(true)</span><br><span class="line">                    .withFatalFlag(false)</span><br><span class="line">                    .build().init("D:\\logs");</span><br></pre></td></tr></tbody></table></figure></div>
+
+<p>定义日志配置2：过滤包且指定日志级别输出</p>
+<div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="HTML"><figure class="iseeu highlight /html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Log4j2Util.newBuilder().withTraceFlag(false)</span><br><span class="line">                    .withDebugFlag(true).withInfoFlag(true).withWarnFlag(true).withErrorFlag(true)</span><br><span class="line">                    .withFatalFlag(false)</span><br><span class="line">                    .addPackLogger("cn.hutool.log", true, false, Level.TRACE, Level.DEBUG, Level.INFO)</span><br><span class="line">                    .addPackLogger("cn.hutool.setting", true, false, Level.TRACE, Level.DEBUG)</span><br><span class="line">                    .build().init("D:\\logs");</span><br></pre></td></tr></tbody></table></figure></div>
+
+<h3 id="完整示例"><a href="#完整示例" class="headerlink" title="完整示例"></a>完整示例</h3><div class="highlight-box"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="HTML"><figure class="iseeu highlight /html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import com.demon.util.Log4j2Util;</span><br><span class="line">import org.apache.logging.log4j.LogManager;</span><br><span class="line">import org.apache.logging.log4j.Logger;</span><br><span class="line"></span><br><span class="line">public class App {</span><br><span class="line"></span><br><span class="line">    private static final Logger log = LogManager.getLogger(App.class);</span><br><span class="line">    </span><br><span class="line">    public static void main(String[] args) {</span><br><span class="line">                        </span><br><span class="line">        // 定义日志配置</span><br><span class="line">        Log4j2Util.newBuilder().withTraceFlag(false)</span><br><span class="line">                   .withDebugFlag(true).withInfoFlag(true).withWarnFlag(true).withErrorFlag(true).withFatalFlag(false)</span><br><span class="line">                   .addPackLogger("cn.hutool.setting", true, false, Level.TRACE, Level.DEBUG)</span><br><span class="line">                   .build().init("D:\\logs");</span><br><span class="line">                   </span><br><span class="line">        // 输出日志</span><br><span class="line">        log.debug("This is debug");</span><br><span class="line">        log.warn("This is warning");</span><br><span class="line">        log.info("This is info");</span><br><span class="line">        log.trace("This is trace");</span><br><span class="line">        log.error("This is error");</span><br><span class="line">        log.fatal("This is fatal");</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></div>
+<script>
+        document.querySelectorAll('.github-emoji')
+          .forEach(el => {
+            if (!el.dataset.src) { return; }
+            const img = document.createElement('img');
+            img.style = 'display:none !important;';
+            img.src = el.dataset.src;
+            img.addEventListener('error', () => {
+              img.remove();
+              el.style.color = 'inherit';
+              el.style.backgroundImage = 'none';
+              el.style.background = 'none';
+            });
+            img.addEventListener('load', () => {
+              img.remove();
+            });
+            document.body.appendChild(img);
+          });
+      </script>
+      
+    </div>
+    
+      <footer class="article-footer">
+        完
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  <div class="article-nav-block">
+    
+      <a href="/2024/12/1734677869669/1734677869669/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption"></strong>
+        <div class="article-nav-title">
+          
+            【log4j.xml】日志之 log4j2 配置
+          
+        </div>
+      </a>
+    
+  </div>
+  <div class="article-nav-block">
+    
+      <a href="/2024/12/1734663400620/1734663400620/" id="article-nav-older" class="article-nav-link-wrap">
+        <div class="article-nav-title">【编程式配置】日志之 log4j2 配置（单文件输出）</div>
+        <strong class="article-nav-caption"></strong>
+      </a>
+    
+  </div>
+</nav>
+
+    <link rel="stylesheet" href="/css/gitment.css"> 
+<script src="/js/gitment.js"></script>
+
+  <hr/>
+  <div class="my_post_copyright">
+      <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+      <!-- JS库 sweetalert 可修改路径 -->
+      <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+      <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+      <p><span>本文标题:</span>【编程式配置】日志之 log4j2 配置（多文件输出）</p>
+      <p><span>文章作者:</span>十二</p>
+      <p><span>发布时间:</span>2024-12-20 10:58:42</p>
+      <p><span>最后更新:</span><time datetime="2024-12-20T07:59:52.000Z" itemprop="datePublished">2024-12-20 15:59:52</time></p>
+      <p><span>原始链接:</span><a href="https://www.zhuqiaolun.com/2024/12/1734663522947/1734663522947/" title="【编程式配置】日志之 log4j2 配置（多文件输出）">https://www.zhuqiaolun.com/2024/12/1734663522947/1734663522947/</a></p>
+      <p><span>许可协议:</span><a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>
+  </div>
+  
+
+</article>
+
+
+              </section>
+              <aside id="sidebar">
+  
+    
+<div class="widget-box">
+  <div class="avatar-box">
+    <img class="avatar" src="/images/favicon.ico" title="DEMON"  alt="头像"/>
+    <h3 class="avatar-name">
+      
+        十二
+      
+    </h3>
+    <p id="avatar-slogan" class="avatar-slogan">
+      我想起那天夕阳下的奔跑，那是我逝去的青春。
+    </p>
+  </div>
+</div>
+
+
+  
+    
+  <div class="widget-box">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Blog/">Blog</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ElasticSearch/">ElasticSearch</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Freemarker/">Freemarker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Git/">Git</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Go-FastDfs/">Go-FastDfs</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/IDEA/">IDEA</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/J-Package/">J-Package</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/J-Tools/">J-Tools</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaFx/">JavaFx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kafka/">Kafka</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Logger/">Logger</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Maven/">Maven</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyCat/">MyCat</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySql/">MySql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Nginx/">Nginx</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OceanBase/">OceanBase</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/RabbitMq/">RabbitMq</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SVN/">SVN</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/SpringBoot/">SpringBoot</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tomcat/">Tomcat</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebService/">WebService</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kubernetes/">kubernetes</a><span class="category-list-count">10</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-box">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">二月 2025</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">十二月 2024</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">八月 2024</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">六月 2024</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">九月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/08/">八月 2023</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/07/">七月 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">八月 2022</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">十一月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/05/">五月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/04/">四月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">三月 2021</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">二月 2021</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">一月 2021</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+  
+      <div class="widget-box">
+    <h3 class="widget-title">作品</h3>
+    <div class="widget">
+      
+        <a style="display: block;" href="https://www.zhuqiaolun.com/weixinz/" title target='_blank'
+        >我的微信</a>
+      
+        <a style="display: block;" href="/file" title target='_blank'
+        >我的文件</a>
+      
+    </div>
+  </div>
+
+  
+  <div class="widget-box">
+      <h3 class="widget-title">网站信息</h3>
+      <!-- 添加网站运行时间  start -->
+      
+      <div class="widget">
+          <span id="timeDate">本站运行时间统计： </span><span id="times">载入中...</span>
+          <script>
+              let now = new Date();
+              function createTime() {
+                  //此处修改你的建站时间或者网站上线时间
+                  let grt = new Date('05/13/2020 10:37:11');//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+                  now.setTime(now.getTime()+250);
+                  days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+                  hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+                  if(String(hnum).length === 1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+                  mnum = Math.floor(minutes); if(String(mnum).length === 1 ){mnum = "0" + mnum;}
+                  seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+                  snum = Math.round(seconds); if(String(snum).length === 1 ){snum = "0" + snum;}
+                  document.getElementById("timeDate").innerHTML = "本站运行时间统计："+dnum+" 天 ";
+                  document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+              }
+              setInterval(createTime, 250);
+          </script>
+      </div>
+      
+      <div class="widget">
+          <!-- 网站统计 start -->
+          
+              <div>
+                  <span class="post-count">本站文章字数统计：96.9k</span>
+              </div>
+              <div>
+                  <span class="post-count">本站文章数量统计：132</span>
+              </div>
+          
+          <!-- 网站统计 end -->
+      </div>
+  </div>
+</aside>
+
+
+          </div>
+      
+      <footer id="footer">
+  <div class="foot-box global-width">
+    &copy; 2025 十二
+    &nbsp;|&nbsp;
+    <a href="https://beian.miit.gov.cn/" target="_blank">鄂ICP备18019781号-1</a>
+    &nbsp;|&nbsp;
+    <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=42118202000044" target="_blank">
+      <img class="img" style="border: 0;position: relative;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAWCAYAAADAQbwGAAAACXBIWXMAAAsTAAALEwEAmpwYAAA5z2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS41LWMwMTQgNzkuMTUxNDgxLCAyMDEzLzAzLzEzLTEyOjA5OjE1ICAgICAgICAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgICAgICAgICB4bWxuczpzdEV2dD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlRXZlbnQjIgogICAgICAgICAgICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgICAgICAgICAgIHhtbG5zOnBob3Rvc2hvcD0iaHR0cDovL25zLmFkb2JlLmNvbS9waG90b3Nob3AvMS4wLyIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIj4KICAgICAgICAgPHhtcDpDcmVhdG9yVG9vbD5BZG9iZSBQaG90b3Nob3AgQ0MgKFdpbmRvd3MpPC94bXA6Q3JlYXRvclRvb2w+CiAgICAgICAgIDx4bXA6Q3JlYXRlRGF0ZT4yMDE5LTA5LTIzVDEyOjA5OjI4KzA4OjAwPC94bXA6Q3JlYXRlRGF0ZT4KICAgICAgICAgPHhtcDpNZXRhZGF0YURhdGU+MjAxOS0wOS0yM1QxMjowOToyOCswODowMDwveG1wOk1ldGFkYXRhRGF0ZT4KICAgICAgICAgPHhtcDpNb2RpZnlEYXRlPjIwMTktMDktMjNUMTI6MDk6MjgrMDg6MDA8L3htcDpNb2RpZnlEYXRlPgogICAgICAgICA8eG1wTU06SW5zdGFuY2VJRD54bXAuaWlkOjg0OTNiNTZlLWM2MmMtY2I0Zi1hMzBmLWM5ZDk3MGNjZTkyMjwveG1wTU06SW5zdGFuY2VJRD4KICAgICAgICAgPHhtcE1NOkRvY3VtZW50SUQ+eG1wLmRpZDo5MmFhMDM0YS1lMDk3LTc3NDktYWI1YS03ZTJiMTI1MTk2ZjY8L3htcE1NOkRvY3VtZW50SUQ+CiAgICAgICAgIDx4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ+eG1wLmRpZDo5MmFhMDM0YS1lMDk3LTc3NDktYWI1YS03ZTJiMTI1MTk2ZjY8L3htcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD4KICAgICAgICAgPHhtcE1NOkhpc3Rvcnk+CiAgICAgICAgICAgIDxyZGY6U2VxPgogICAgICAgICAgICAgICA8cmRmOmxpIHJkZjpwYXJzZVR5cGU9IlJlc291cmNlIj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmFjdGlvbj5jcmVhdGVkPC9zdEV2dDphY3Rpb24+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDppbnN0YW5jZUlEPnhtcC5paWQ6OTJhYTAzNGEtZTA5Ny03NzQ5LWFiNWEtN2UyYjEyNTE5NmY2PC9zdEV2dDppbnN0YW5jZUlEPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6d2hlbj4yMDE5LTA5LTIzVDEyOjA5OjI4KzA4OjAwPC9zdEV2dDp3aGVuPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6c29mdHdhcmVBZ2VudD5BZG9iZSBQaG90b3Nob3AgQ0MgKFdpbmRvd3MpPC9zdEV2dDpzb2Z0d2FyZUFnZW50PgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgICAgPHJkZjpsaSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDphY3Rpb24+c2F2ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0Omluc3RhbmNlSUQ+eG1wLmlpZDo4NDkzYjU2ZS1jNjJjLWNiNGYtYTMwZi1jOWQ5NzBjY2U5MjI8L3N0RXZ0Omluc3RhbmNlSUQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDp3aGVuPjIwMTktMDktMjNUMTI6MDk6MjgrMDg6MDA8L3N0RXZ0OndoZW4+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpzb2Z0d2FyZUFnZW50PkFkb2JlIFBob3Rvc2hvcCBDQyAoV2luZG93cyk8L3N0RXZ0OnNvZnR3YXJlQWdlbnQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpjaGFuZ2VkPi88L3N0RXZ0OmNoYW5nZWQ+CiAgICAgICAgICAgICAgIDwvcmRmOmxpPgogICAgICAgICAgICA8L3JkZjpTZXE+CiAgICAgICAgIDwveG1wTU06SGlzdG9yeT4KICAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9wbmc8L2RjOmZvcm1hdD4KICAgICAgICAgPHBob3Rvc2hvcDpDb2xvck1vZGU+MzwvcGhvdG9zaG9wOkNvbG9yTW9kZT4KICAgICAgICAgPHRpZmY6T3JpZW50YXRpb24+MTwvdGlmZjpPcmllbnRhdGlvbj4KICAgICAgICAgPHRpZmY6WFJlc29sdXRpb24+NzIwMDAwLzEwMDAwPC90aWZmOlhSZXNvbHV0aW9uPgogICAgICAgICA8dGlmZjpZUmVzb2x1dGlvbj43MjAwMDAvMTAwMDA8L3RpZmY6WVJlc29sdXRpb24+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDxleGlmOkNvbG9yU3BhY2U+NjU1MzU8L2V4aWY6Q29sb3JTcGFjZT4KICAgICAgICAgPGV4aWY6UGl4ZWxYRGltZW5zaW9uPjIwPC9leGlmOlBpeGVsWERpbWVuc2lvbj4KICAgICAgICAgPGV4aWY6UGl4ZWxZRGltZW5zaW9uPjIyPC9leGlmOlBpeGVsWURpbWVuc2lvbj4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgCjw/eHBhY2tldCBlbmQ9InciPz4jh4n+AAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAATMSURBVHjarNVbbBR1FMfx78zOzs5Od7v3btcuEmgFilyqgNdaBI1cAgUxIWCMikFEjRqJPGh8IRgDLxjReAliFEKMCglJIQSoNcolgjEQAbmUUqC7pbS73XZnd2d3ZmfHB7GKwfji7+08/D/5n+T/P0ewbZv/MxJAme4bRTVQBcZxOvcd4I5FL9YWLp1o/X7fz8+X9LL88GNTtwSnTNl9dtdXicaFS0CuB/pJX9gNQGjcmj/AW2QWsPqLF19vtfVOpaek4gj4Kew894H+Sdt7zY+MbQM+B/b886B4C0zp+Hhrx9Or2pfmileUcR4HK5XrrFZ6eOD+KMH7o9LKVQcfP7B5Qxvg+i8wXjqxfv/7O4ZZvnIsz8az+D49Q/q8RbrLYnjBJyyyTvHatmVs2WVin//sW0D5N7Dx6p63u1oWnGrxN0R5OXyK7h1ZxFF+LM2AUgUh4ufoK0dYqp4g+uBdPLpg78KBw1svAeNvAvNnu5CK+z1t573y8d7pzJuukTuZRbw6jOB34Rq0KB65jnNMCCWnk/ryGEvmGHRcnMj2Q1bMI+TdwTHP3HTDeOWn7zZVBDdIBaq1XrJ94LRMGCwi1KvI0/yI1/LIVEh169QFSyAIZHIiroi0CRgzAl45d/AJI5lsDnhkKLuwYzHCzbXksNEeCGEtj+NZ14T62hTEiErNtDD5ggG2TaxGhcTJWYM9R58bAVVPoDGrmYyNFEEJceCYijS7mvTC0VhJDeHXPIW91zG7h5DXNhN8fSo7t2WAKpomS+S7+ikmuuIjYGWwd2E2IzEprhG/R+aj7VX8sCFB04wYPtVL4UyGSn+J4qkM3uQQp9dfYPM2F9EmP5PrhkklS5iD55pHQFHK+7WsSPXABZbOsSibHsw9fYS+/gWxzokRcVCpkQjPjhHruERqy2nyhoMlrU686U60rITkFZ0jX8+t3t4ujr/cakXrWHGvxqa6CB8lGzF7zhBKdyL63OhnMmgNNSQDMb4R3VDtZ8V9/ZS9cfx3CqiBUXtHQBBr7KxNb5fGpMZu3nljGm+vbWGPNhmyJq2FNEG/yM69XnKoQIA1LynMaOiktxMoFqiUtakjoOQ3ppe9Ucw+k0T/WV5tdrGkvYqOfQXOiVOYO/EiMXeKclsdRkZn1ASVt+Ze5vrRyxRMBSUsI/nlCQCCbduUcsefTB/buEPvMyilTEhcoX5xE66oAlYaKy2R69fxjQnC6BAkUnTvPo/uDeMZ68Fdq+JrWD5TDsz/8U8Qh+B6avD0pg+tou5LHepDqrKpndmINahjFvKIqoISrEKQnaSPdlG2JHzT6zGLpH3jW5bJTrVdDsz/o+VSqgLoyWKfW1eiFV90dgPWcB5Ly4Iq45D9yG4whnLkExmU0SGUeJTSUIFiUrPdo3IY5AgGbjwbB4dxcPjNmru9tc5AjNJwhYolUbEcFAc0sCsY6WFynQMIDicIAsVrKZxukehDsbCsai/IqvbXxHaFZgAszvQe2mgkflshOwpVashFOW+AYOIoDVHWDbwTwjgUB4aeQ6wKIwRqr5al+i2KGnn3phVwIwXglczZ6Dp9eGBeyeyZedvEyMSKJngUvxiU3F60a1x1R/wFqabl5GBXf7t+JXNg9ENU/j4Phf97Sf0+ADr3CMhtMiuNAAAAAElFTkSuQmCC" alt="">
+      鄂公网安备42118202000044号</a>
+    <br>
+    驱动于 <a href="http://hexo.io/" target="_blank">Hexo</a>
+    &nbsp;|&nbsp;主题 <a href="https://github.com/yiluyanxia/hexo-theme-antiquity" target="_blank" rel="noopener">antiquity</a>
+    &nbsp;|&nbsp;
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span id="busuanzi_container_site_pv">不蒜子告之   阁下是第<span id="busuanzi_value_site_pv"></span>个访客</span>
+  </div>
+</footer>
+
+      <script src="/js/jquery-2.0.3.min.js"></script>
+<script>
+if (!window.jQuery) {
+  var script = document.createElement('script');
+  script.src = "/js/jquery-2.0.3.min.js";
+  document.body.write(script);
+}
+</script>
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/clipboard-use.js"></script>
+
+
+<script src="/js/jquery.reveal.js"></script>
+
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/custom.js"></script>
+
+
+
+
+
+    </div>
+    <nav id="mobile-nav" class="mobile-nav-box">
+  <div class="mobile-nav-img mobile-nav-top"></div>
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+    <a href="/file" class="mobile-nav-link">文件</a>
+  
+    <a href="https://github.com/zhuqiaolun" target="_blank" rel="noopener" class="mobile-nav-link">Github</a>
+  
+  <div class="mobile-nav-img  mobile-nav-bottom"></div>
+</nav>
+  </div>
+</body>
+</html>
