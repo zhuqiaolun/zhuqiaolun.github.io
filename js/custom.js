@@ -39,7 +39,7 @@ function loadSearch() {
 
 /* 每日一言API */
 function loadHitokoto() {
-
+    /*
      console.log("加载每日一言···");
     const xhr = new XMLHttpRequest();
     xhr.open('get', 'https://v1.hitokoto.cn?c=a&c=b&c=c&c=d&c=f&c=g&c=h&c=j&c=k');
@@ -60,5 +60,5 @@ function loadHitokoto() {
         }
     };
     xhr.send();
-
+    */
 }
